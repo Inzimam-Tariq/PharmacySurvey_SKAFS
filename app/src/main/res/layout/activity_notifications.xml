@@ -4,7 +4,7 @@
     android:id="@+id/activity_notifications"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FCMServices.NotificationsActivity">
+    tools:mContext=".FCMServices.NotificationsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

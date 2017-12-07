@@ -94,12 +94,24 @@ public class DistrictSelectionActivity extends BaseActivity {
         getting.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         getting.setCancelable(false);
 
-        gps = new GPSTracker(this);
-
         statesInfoList = new ArrayList<>();
         categoriesInfoList = new ArrayList<>();
         citiesInfoList = new ArrayList<>();
         townsInfoList = new ArrayList<>();
+
+        utils.setOnKeyListener(namePosET);
+        utils.setOnKeyListener(addressPosET);
+        utils.setOnKeyListener(nearByLocationET);
+        utils.setOnKeyListener(proprietorNameET);
+        utils.setOnKeyListener(proprietorFatherNameET);
+        utils.setOnKeyListener(proprietorContactET);
+        utils.setOnKeyListener(proprietorCNICET);
+        utils.setOnKeyListener(proprietorEmailET);
+        utils.setOnKeyListener(proprietorAddressET);
+//        utils.setOnKeyListener(namePosET);
+//        utils.setOnKeyListener(namePosET);
+//        utils.setOnKeyListener(namePosET);
+//        utils.setOnKeyListener(namePosET);
 
 
         namePosET.setOnTouchListener(new View.OnTouchListener() {
@@ -113,7 +125,9 @@ public class DistrictSelectionActivity extends BaseActivity {
                        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                            if (actionId == EditorInfo.IME_ACTION_DONE
                                    || actionId == EditorInfo.IME_ACTION_NEXT
-                                   || actionId == EditorInfo.IME_ACTION_NEXT) {
+                                   || actionId == EditorInfo.IME_ACTION_GO
+                                   || actionId == EditorInfo.IME_ACTION_SEND
+                                   || actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                                utils.hideKeyboard(v);
                                namePosET.setClickable(false);
@@ -867,34 +881,34 @@ public class DistrictSelectionActivity extends BaseActivity {
 
     private void initViews() {
 
-        hoursRadioGroup = (RadioGroup) findViewById(R.id.hoursRadioGroup);
-        locationRadioGroup = (RadioGroup) findViewById(R.id.locationRadioGroup);
-        radioHour1 = (RadioButton) findViewById(R.id.eight);
-        radioHour2 = (RadioButton) findViewById(R.id.sixteen);
-        radioHour3 = (RadioButton) findViewById(R.id.twentyFour);
-        radioLocation1 = (RadioButton) findViewById(R.id.rbClinic);
-        radioLocation2 = (RadioButton) findViewById(R.id.rbHospital);
-        radioLocation3 = (RadioButton) findViewById(R.id.rbIndependent);
+        hoursRadioGroup = findViewById(R.id.hoursRadioGroup);
+        locationRadioGroup = findViewById(R.id.locationRadioGroup);
+        radioHour1 = findViewById(R.id.eight);
+        radioHour2 = findViewById(R.id.sixteen);
+        radioHour3 = findViewById(R.id.twentyFour);
+        radioLocation1 = findViewById(R.id.rbClinic);
+        radioLocation2 = findViewById(R.id.rbHospital);
+        radioLocation3 = findViewById(R.id.rbIndependent);
 
-        stateET = (EditText) findViewById(R.id.stateET);
-        districtET = (EditText) findViewById(R.id.districtET);
-        townET = (EditText) findViewById(R.id.townET);
-        salesTypeET = (EditText) findViewById(R.id.salesTypeET);
-        namePosET = (EditText) findViewById(R.id.namePosET);
-        addressPosET = (EditText) findViewById(R.id.addressPosET);
-        nearByLocationET = (EditText) findViewById(R.id.nearByLocationET);
-        proprietorNameET = (EditText) findViewById(R.id.proprietorNameET);
-        proprietorFatherNameET = (EditText) findViewById(R.id.proprietorFatherNameET);
-        proprietorContactET = (EditText) findViewById(R.id.proprietorContactET);
-        proprietorCNICET = (EditText) findViewById(R.id.proprietorCNICET);
-        proprietorEmailET = (EditText) findViewById(R.id.proprietorEmailET);
-        proprietorAddressET = (EditText) findViewById(R.id.proprietorAddressET);
-        optProprietorNameET = (EditText) findViewById(R.id.optProprietorNameET);
-        optProprietorFatherNameET = (EditText) findViewById(R.id.optProprietorFatherNameET);
-        optProprietorContactET = (EditText) findViewById(R.id.optProprietorContactET);
-        optProprietorCNICET = (EditText) findViewById(R.id.optProprietorCNICET);
-        optProprietorEmailET = (EditText) findViewById(R.id.optProprietorEmailET);
-        optProprietorAddressET = (EditText) findViewById(R.id.optProprietorAddressET);
+        stateET = findViewById(R.id.stateET);
+        districtET = findViewById(R.id.districtET);
+        townET = findViewById(R.id.townET);
+        salesTypeET = findViewById(R.id.salesTypeET);
+        namePosET = findViewById(R.id.namePosET);
+        addressPosET = findViewById(R.id.addressPosET);
+        nearByLocationET = findViewById(R.id.nearByLocationET);
+        proprietorNameET = findViewById(R.id.proprietorNameET);
+        proprietorFatherNameET = findViewById(R.id.proprietorFatherNameET);
+        proprietorContactET = findViewById(R.id.proprietorContactET);
+        proprietorCNICET = findViewById(R.id.proprietorCNICET);
+        proprietorEmailET = findViewById(R.id.proprietorEmailET);
+        proprietorAddressET = findViewById(R.id.proprietorAddressET);
+        optProprietorNameET = findViewById(R.id.optProprietorNameET);
+        optProprietorFatherNameET = findViewById(R.id.optProprietorFatherNameET);
+        optProprietorContactET = findViewById(R.id.optProprietorContactET);
+        optProprietorCNICET = findViewById(R.id.optProprietorCNICET);
+        optProprietorEmailET = findViewById(R.id.optProprietorEmailET);
+        optProprietorAddressET = findViewById(R.id.optProprietorAddressET);
     }
 
     public void stateDialog(View view) {
@@ -1053,6 +1067,8 @@ public class DistrictSelectionActivity extends BaseActivity {
 
     public void onClickNext(View view) {
 
+        gps = new GPSTracker(this);
+
         if (utils.isNetworkConnected()){
 
             if(gps.canGetLocation()){
@@ -1094,6 +1110,7 @@ public class DistrictSelectionActivity extends BaseActivity {
                 // GPS or Network is not enabled
                 // Ask user to enable GPS/network in settings
                 utils.showToast("Enable Location....!");
+                String message = "GPS is not enabled. Do you want to open settings menu?";
                 gps.showSettingsAlert();
             }
 
@@ -1212,7 +1229,7 @@ public class DistrictSelectionActivity extends BaseActivity {
             Log.e("Proprietor Email",strProprietorEmailET);
             Log.e("Proprietor Contact",strProprietorContactET);
             Log.e("Proprietor Address",strProprietorAddressET);
-            Log.e("Status",sharedPrefUtils.getSharedPrefValue(REG_STATUS));
+            Log.e("Status", "Status"+sharedPrefUtils.getSharedPrefValue(REG_STATUS));
             Log.e("Opt Proprietor Name",strOptProprietorNameET);
             Log.e("Opt Proprietor Father",strOptProprietorFatherNameET);
             Log.e("Opt Proprietor Address",strOptProprietorAddressET);

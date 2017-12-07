@@ -1,6 +1,5 @@
 package com.technoxol.mandepos;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.util.Timer;
@@ -32,7 +30,6 @@ public class GPSTracker extends Service implements LocationListener {
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
     // The minimum time between updates in milliseconds
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
-    private Context mContext;
     public Timer timer1;
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -46,6 +43,7 @@ public class GPSTracker extends Service implements LocationListener {
     Location location; // location
     double latitude; // latitude
     double longitude; // longitude
+    private Context mContext;
 
 
     public GPSTracker(Context context) {
@@ -244,15 +242,15 @@ public class GPSTracker extends Service implements LocationListener {
 
         if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            Log.e("WithinPermission","Permission Required");
-            ActivityCompat.requestPermissions((AppCompatActivity)mContext,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-        }else if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            Log.e("WithinPermission","Permission Required");
-            ActivityCompat.requestPermissions((AppCompatActivity)mContext,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
+//            Log.e("WithinPermission","Permission Required");
+//            ActivityCompat.requestPermissions((AppCompatActivity)mContext,
+//                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+//                    1);
+//        }else if (ActivityCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+//            Log.e("WithinPermission","Permission Required");
+//            ActivityCompat.requestPermissions((AppCompatActivity)mContext,
+//                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+//                    1);
         }
         locationManager.requestLocationUpdates(provider, 1000, 0,
                 new LocationListener() {
@@ -275,7 +273,7 @@ public class GPSTracker extends Service implements LocationListener {
                             double lat = location.getLatitude();
                             double lng = location.getLongitude();
                             System.out.println("WE GOT THE LOCATION");
-                            Log.e("InSideLocationChange","WE GOT THE LOCATION");
+                            Log.e("InSideLocationChange", "WE GOT THE LOCATION");
                             if (lat != 0.0 && lng != 0.0) {
                                 System.out.println("WE GOT THE LOCATION");
                                 System.out.println(lat);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg"
     android:orientation="vertical"
-    tools:context="com.technoxol.mandepos.SubCategoriesActivity">
+    tools:mContext="com.technoxol.mandepos.SubCategoriesActivity">
 
     <TextView
         android:layout_width="wrap_content"

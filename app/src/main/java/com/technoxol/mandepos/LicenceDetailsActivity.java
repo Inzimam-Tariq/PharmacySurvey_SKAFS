@@ -1,7 +1,14 @@
 package com.technoxol.mandepos;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +38,7 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
     private String license, radioValue;
 
     private RadioGroup radioGroup;
-    private RadioButton radioBtns1,radioBtns2;
+    private RadioButton radioBtns1, radioBtns2;
     private Button surveyBtn;
 
     private int selectedId;
@@ -39,6 +46,7 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
     private boolean isStausNull;
     private String licenseResponse;
     private String status;
+    private Context mContext;
 
     private ProgressDialog progressDialog;
 
@@ -49,6 +57,8 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
         initUtils();
         initViews();
+        this.mContext = this;
+
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Checking");
@@ -65,13 +75,13 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                     try {
                         JSONObject jsonObject = new JSONObject(response);
 
-                        Log.e("response",response);
-                        if (jsonObject.getBoolean("success")){
+                        Log.e("response", response);
+                        if (jsonObject.getBoolean("success")) {
 
                             JSONArray notifications = jsonObject.getJSONArray("notifications");
                             JSONObject data = notifications.getJSONObject(0);
-                            sharedPrefUtils.saveSharedPrefValue(NOTIF_TITLE,data.optString("title"));
-                            sharedPrefUtils.saveSharedPrefValue(NOTIF_MSG,data.optString("msg"));
+                            sharedPrefUtils.saveSharedPrefValue(NOTIF_TITLE, data.optString("title"));
+                            sharedPrefUtils.saveSharedPrefValue(NOTIF_MSG, data.optString("msg"));
 
                             notifText.setVisibility(View.VISIBLE);
 
@@ -88,11 +98,12 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
     }
 
+
     private void initViews() {
 
-        notifText= (TextView) findViewById(R.id.notifText);
+        notifText = (TextView) findViewById(R.id.notifText);
         licenseET = (EditText) findViewById(R.id.licenseET);
-        surveyBtn= (Button) findViewById(R.id.surveyBtn);
+        surveyBtn = (Button) findViewById(R.id.surveyBtn);
         radioGroup = (RadioGroup) findViewById(R.id.radioBtns);
         radioBtns1 = (RadioButton) findViewById(R.id.radioReg);
         radioBtns2 = (RadioButton) findViewById(R.id.radioUnReg);
@@ -114,7 +125,7 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
     private void validateFields(String license) {
 
-        if (license.isEmpty()){
+        if (license.isEmpty()) {
 
             licenseET.setError("Required");
             licenseET.requestFocus();
@@ -123,13 +134,13 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
             progressDialog.show();
 
-            sharedPrefUtils.saveSharedPrefValue(LICENSE_NUMBER,license);
+            sharedPrefUtils.saveSharedPrefValue(LICENSE_NUMBER, license);
 
-            Log.e("Id",sharedPrefUtils.getSharedPrefValue(PHARMACIST_ID));
-            Log.e("Access",sharedPrefUtils.getSharedPrefValue(PHARMACIST_ACCESS));
+            Log.e("Id", sharedPrefUtils.getSharedPrefValue(PHARMACIST_ID));
+            Log.e("Access", sharedPrefUtils.getSharedPrefValue(PHARMACIST_ACCESS));
             httpService.licenseCheck(license,
                     sharedPrefUtils.getSharedPrefValue(PHARMACIST_ID),
-                    sharedPrefUtils.getSharedPrefValue(PHARMACIST_ACCESS),this);
+                    sharedPrefUtils.getSharedPrefValue(PHARMACIST_ACCESS), this);
         }
     }
 
@@ -144,19 +155,20 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                 progressDialog.dismiss();
                 JSONObject jsonObject = new JSONObject(response);
 
-                licenseResponse =  response;
+                licenseResponse = response;
 
-                Log.e("response",response);
-                if (jsonObject.getBoolean("success")){
+                Log.e("response", response);
+                boolean success = jsonObject.getBoolean("success");
+                if (success) {
 
                     JSONObject survey = jsonObject.getJSONObject("survey");
 
-                    if (survey!=null) {
+                    if (survey != null) {
 
                         status = survey.optString("status"); //: "1"
-                        sharedPrefUtils.saveSharedPrefValue(REG_STATUS,status);
+                        sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "1");
 
-                        if (status.matches("1")){
+                        if (status.matches("1")) {
 
                             radioBtns1 = (RadioButton) findViewById(R.id.radioReg);
                             radioBtns1.setChecked(true);
@@ -165,18 +177,22 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                             radioBtns1.setClickable(false);
                             radioBtns2.setClickable(false);
                             Bundle bundle = new Bundle();
-                            bundle.putString(LICENSE_RESPONSE,response);
-                            utils.startNewActivity(DistrictSelectionActivity.class,bundle,false);
-                        } else if(status.matches("2")){
+                            Log.e("Status1","Here");
+                            bundle.putString(LICENSE_RESPONSE, response);
+                            utils.startNewActivity(DistrictSelectionActivity.class, bundle, false);
+                        } else if (status.matches("2")) {
+                            Log.e("Status2","Here");
                             radioBtns2.setChecked(true);
                             radioValue = radioBtns2.getText().toString();
+                            sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "0");
                             radioBtns2.setEnabled(false);
                             radioBtns1.setClickable(false);
                             radioBtns2.setClickable(false);
                         }
                     } else {
 
-
+                        Log.e("StatusSurveyNull","Here");
+                        sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "1");
                         radioBtns2 = (RadioButton) findViewById(R.id.radioUnReg);
                         radioBtns2.setChecked(true);
                         radioValue = radioBtns2.getText().toString();
@@ -185,6 +201,7 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                         isStausNull = true;
                     }
                 } else {
+                    sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "1");
                     radioBtns2 = (RadioButton) findViewById(R.id.radioUnReg);
                     radioBtns2.setChecked(true);
                     radioValue = radioBtns2.getText().toString();
@@ -203,7 +220,7 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
     public void onClickSurvey(View view) {
 
         if (utils.isNetworkConnected()) {
-            if (licenseResponse!=null) {
+            if (licenseResponse != null) {
                 Bundle bundle = new Bundle();
                 bundle.putString(LICENSE_RESPONSE, licenseResponse);
                 utils.startNewActivity(DistrictSelectionActivity.class, bundle, false);
@@ -218,21 +235,53 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
     public void onClickLogout(View view) {
 
         utils.showToast("Logged Out");
-        sharedPrefUtils.saveActivityPrefValue(ALREADY_LOGIN,false);
-        utils.startNewActivity(LoginActivity.class,null,true);
+        sharedPrefUtils.saveActivityPrefValue(ALREADY_LOGIN, false);
+        utils.startNewActivity(LoginActivity.class, null, true);
     }
+
     private void freezeRadioButtons() {
 
-            utils.showToast("RadioCount = " +radioGroup.getChildCount());
-            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+        utils.showToast("RadioCount = " + radioGroup.getChildCount());
+        for (int i = 0; i < radioGroup.getChildCount(); i++) {
 
-                radioGroup.getChildAt(i).setEnabled(false);
+            radioGroup.getChildAt(i).setEnabled(false);
 
 
         }
     }
 
     public void onClickNotif(View view) {
-        utils.startNewActivity(NotificationActivity.class,null,true);
+        utils.startNewActivity(NotificationActivity.class, null, true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (ActivityCompat.checkSelfPermission(mContext,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(mContext,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            Log.e("WithinPermission", "Location Permission Required");
+            ActivityCompat.requestPermissions((AppCompatActivity) mContext,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION
+                            , Manifest.permission.ACCESS_COARSE_LOCATION},
+                    101);
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 101) {
+                Log.e("OnResult", "Permission Granted");
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED){
+            Log.e("OnResult", "Permission Canceled");
+        }
     }
 }

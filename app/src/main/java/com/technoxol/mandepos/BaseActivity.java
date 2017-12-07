@@ -3,7 +3,6 @@ package com.technoxol.mandepos;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 
 /**
@@ -29,11 +28,6 @@ public class BaseActivity extends AppCompatActivity {
         httpService = new HttpService(this);
         sharedPrefUtils = new SharedPrefUtils(this);
         customDialogs = new CustomDialogs(this);
-        GPSTracker tracker = new GPSTracker(this);
-        String lat = String.valueOf(tracker.getLatitude());
-        String lng = String.valueOf(tracker.getLongitude());
-        Log.e("LocationInBase=", tracker.getLocation()
-                + "\nLat = " + lat + "\nLong"+lng);
     }
 }
 
