@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_notifications"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FCMServices.NotificationsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="1"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:id="@+id/navBarLayout"
+        android:background="@color/cyan">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_back_arrow"
+            android:clickable="true"
+            android:onClick="onClickBack"
+            android:padding="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/navBarLayout">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notifications_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:layout_below="@+id/navBar"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Notification Available"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:id="@+id/noNotoifyText"/>
+
+</RelativeLayout>

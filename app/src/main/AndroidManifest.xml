@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.technoxol.mandepos">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name=".ControllerApp"
+        android:allowBackup="true"
+        android:icon="@drawable/skafs_logo"
+        android:label="@string/mp"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".SplashActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DistrictSelectionActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".LoginActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".VerificationActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".LicenceDetailsActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".MainActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".TakePicturesActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".SubCategoriesActivity"
+            android:alwaysRetainTaskState="true"
+            android:configChanges="orientation|keyboardHidden|screenLayout|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".NotificationActivity"></activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.technoxol.mandepos.LicenceDetailsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/nav"
+        android:background="@color/cyan">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Logout"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_logout"
+            android:layout_margin="5dp"
+            android:id="@+id/logout"
+            android:gravity="center_vertical"
+            android:onClick="onClickLogout"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notifications"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_notification"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:id="@+id/notification"
+                android:onClick="onClickNotif"/>
+
+            <TextView
+                android:id="@+id/notifText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textStyle="bold"
+                android:maxLength="4"
+                android:textColor="@color/white"
+                android:background="@drawable/notif_bg"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="2dp"
+                android:textSize="10sp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/nav">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardUseCompatPadding="true"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="10dp"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mp"
+                    android:textColor="@color/cyan"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
+                    android:layout_marginTop="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mp_abr"
+                    android:textColor="@color/cyan"
+                    android:textStyle="bold"
+                    android:textSize="11sp"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="License Number"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="20dp"/>
+
+                <EditText
+                    android:id="@+id/licenseET"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_text_rounded_box"
+                    android:hint="License Number"
+                    android:textColorHint="@color/cyan"
+                    android:paddingLeft="20dp"
+                    android:textSize="14sp"
+                    android:inputType="textEmailAddress"
+                    android:layout_marginBottom="20dp"/>
+
+                <Button
+                    android:id="@+id/loginBtn"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/primary_btn"
+                    android:hint="Check"
+                    android:textColorHint="@color/white"
+                    android:layout_marginBottom="20dp"
+                    android:onClick="onClickCheck"/>
+
+                <RadioGroup
+                    android:id="@+id/radioBtns"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp">
+
+                    <RadioButton
+                        android:id="@+id/radioReg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Registered"/>
+
+                    <RadioButton
+                        android:id="@+id/radioUnReg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Unregistered" />
+
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/surveyBtn"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/primary_btn"
+                    android:hint="Survey"
+                    android:textColorHint="@color/white"
+                    android:layout_marginBottom="40dp"
+                    android:onClick="onClickSurvey"/>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+
+</RelativeLayout>

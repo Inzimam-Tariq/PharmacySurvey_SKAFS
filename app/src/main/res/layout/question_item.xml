@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="3dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+    
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/questionNumber"
+                android:text="1: "
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:layout_gravity="top"/>
+    
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:id="@+id/questionText"
+                    android:layout_marginBottom="10dp"/>
+    
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/edit_text_rounded_box"
+                    android:id="@+id/questionEditText"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="10dp"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/optionET"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/spinner_bg"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:drawableRight="@drawable/ic_spinner_down_black"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:hint="Select Option"
+                    android:onClick="stateDialog"
+                    android:paddingLeft="20dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="14sp" />
+    
+            </LinearLayout>
+    
+        </LinearLayout>
+    
+    </LinearLayout>
+    
+</android.support.v7.widget.CardView>

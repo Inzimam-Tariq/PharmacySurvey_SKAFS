@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.technoxol.mandepos.DistrictSelectionActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="30dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Basic Info"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="25sp"
+                android:paddingLeft="5dp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/catName"/>
+
+            <EditText
+                android:id="@+id/stateET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/spinner_bg"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:drawableRight="@drawable/ic_spinner_down_black"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="Select Province"
+                android:onClick="stateDialog"
+                android:paddingLeft="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/districtET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableRight="@drawable/ic_spinner_down_black"
+                android:layout_weight="1"
+                android:hint="Select District"
+                android:paddingLeft="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="districtDialog"
+                android:cursorVisible="false"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/townET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableRight="@drawable/ic_spinner_down_black"
+                android:layout_weight="1"
+                android:hint="Town / Mouza"
+                android:paddingLeft="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="townDialog"
+                android:cursorVisible="false"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/salesTypeET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner_bg"
+                android:drawableRight="@drawable/ic_spinner_down_black"
+                android:layout_weight="1"
+                android:hint="Points of Sales Type"
+                android:paddingLeft="20dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"
+                android:onClick="salesTypeDialog"
+                android:cursorVisible="false"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pos_name"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/namePosET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pos_address"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/addressPosET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Working Hours"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/hoursRadioGroup">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8 Hours"
+                    android:id="@+id/eight"
+                    android:onClick="onClickHours"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16 Hours"
+                    android:id="@+id/sixteen"
+                    android:onClick="onClickHours"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="24 Hours"
+                    android:id="@+id/twentyFour"
+                    android:onClick="onClickHours"/>
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nearby Location"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"/>
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="3"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/locationRadioGroup">
+
+                <RadioButton
+                    android:id="@+id/rbHospital"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hospital"
+                    android:onClick="onClickLocation"/>
+
+                <RadioButton
+                    android:id="@+id/rbClinic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Clinic"
+                    android:onClick="onClickLocation"/>
+
+                <RadioButton
+                    android:id="@+id/rbIndependent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Independent"
+                    android:onClick="onClickLocation"/>
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nearby Location Name"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/nearByLocationET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prop_name"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/proprietorNameET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:inputType="textPersonName"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/optProprietorNameET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:hint="@string/optional"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prop_father_name"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/proprietorFatherNameET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/optProprietorFatherNameET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:hint="@string/optional"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <!--<Button-->
+                <!--android:id="@+id/takePicBtn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:background="@drawable/primary_btn"-->
+                <!--android:hint="Take Thumb Pictures"-->
+                <!--android:inputType="text"-->
+                <!--android:textColorHint="@color/white"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:onClick="onClickTakePic"-->
+                <!--android:layout_gravity="center"/>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prop_contact"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/proprietorContactET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:maxLength="11"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/optProprietorContactET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:hint="@string/optional"
+                android:textSize="14sp"
+                android:maxLength="11"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prop_cnic"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:inputType="number"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/proprietorCNICET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:maxLength="13"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/optProprietorCNICET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:hint="@string/optional"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:maxLength="13"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/prop_email"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"/>
+
+            <EditText
+                android:id="@+id/proprietorEmailET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/optProprietorEmailET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:hint="@string/optional"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prop_address"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp" />
+
+            <EditText
+                android:id="@+id/proprietorAddressET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <EditText
+                android:id="@+id/optProprietorAddressET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:hint="@string/optional"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Any Other Proof"
+                android:textStyle="bold"
+                android:textColor="@color/cyan"
+                android:textSize="16sp"
+                android:paddingLeft="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="0.12" />
+
+            <EditText
+                android:id="@+id/proprietorAnyProof"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_rounded_box"
+                android:textColorHint="@color/cyan"
+                android:paddingLeft="20dp"
+                android:textSize="14sp"
+                android:imeOptions="actionDone"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:id="@+id/surveyBtn"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:background="@drawable/primary_btn"
+                android:hint="Next"
+                android:inputType="text"
+                android:textColorHint="@color/white"
+                android:layout_marginBottom="40dp"
+                android:onClick="onClickNext"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

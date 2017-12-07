@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Survey Form</string>
+    <string name="mp">M &amp; E POS</string>
+    <string name="mp_abr">(Inspection, Monitoring &amp; Evaluation of POS of Drugs)</string>
+    <string name="pos_name">Name of POS</string>
+    <string name="pos_address">Address of POS</string>
+    <string name="prop_name">Name of Proprietor</string>
+    <string name="prop_father_name">Father Name of Proprietor</string>
+    <string name="prop_contact">Contact of Proprietor</string>
+    <string name="prop_cnic">CNIC of Proprietor</string>
+    <string name="prop_email">Email of Proprietor</string>
+    <string name="prop_address">Address of Proprietor</string>
+    <string name="optional">Optional</string>
+</resources>
