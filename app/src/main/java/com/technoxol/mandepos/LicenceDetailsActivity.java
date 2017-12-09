@@ -262,12 +262,16 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                 != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(mContext,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(mContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             Log.e("WithinPermission", "Location Permission Required");
             ActivityCompat.requestPermissions((AppCompatActivity) mContext,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION
-                            , Manifest.permission.ACCESS_COARSE_LOCATION},
+                            , Manifest.permission.ACCESS_COARSE_LOCATION
+                            , Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     101);
         }
 
