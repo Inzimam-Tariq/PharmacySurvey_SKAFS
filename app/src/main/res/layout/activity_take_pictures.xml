@@ -15,10 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="20dp"
-            app:cardUseCompatPadding="true"
+            android:layout_margin="16dp"
             app:cardCornerRadius="5dp"
-            app:cardElevation="10dp">
+            app:cardElevation="3dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,54 +31,71 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:text="@string/mp"
                     android:textColor="@color/cyan"
-                    android:textStyle="bold"
                     android:textSize="30sp"
-                    android:layout_marginTop="20dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/mp_abr"
                     android:textColor="@color/cyan"
-                    android:textStyle="bold"
                     android:textSize="11sp"
-                    android:layout_marginBottom="20dp"/>
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/catName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="License Pictures"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
+                    android:layout_marginBottom="15dp"
+                    android:text="Pictures"
                     android:textColor="@color/cyan"
-                    android:layout_marginBottom="50dp"
-                    android:id="@+id/catName"/>
-
-                <ImageView
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:src="@drawable/ic_add_picture"
-                    android:id="@+id/image"
-                    android:onClick="onClickTakePickture"/>
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
                     android:id="@+id/picturesList"
-                    android:layout_marginBottom="20dp"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp" />
 
-                <Button
-                    android:id="@+id/loginBtn"
-                    android:layout_width="200dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/primary_btn"
-                    android:hint="Upload"
-                    android:textColorHint="@color/white"
-                    android:inputType="textPassword"
-                    android:layout_marginBottom="40dp"
-                    android:onClick="onSendPics"/>
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="10dp"
+                    android:onClick="onClickTakePickture"
+                    android:src="@drawable/ic_add_picture" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="40dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/primary_btn"
+                        android:hint="Finish"
+                        android:onClick="finishSurvey"
+                        android:textColorHint="@color/white" />
+
+                    <Button
+                        android:id="@+id/loginBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_weight="0.5"
+                        android:background="@drawable/primary_btn"
+                        android:hint="Upload"
+                        android:onClick="onSendPics"
+                        android:textColorHint="@color/white" />
+                </LinearLayout>
 
             </LinearLayout>
 

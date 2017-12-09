@@ -27,23 +27,17 @@ import java.util.Date;
 
 public class TakePicturesActivity extends BaseActivity {
 
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    ArrayList<String> paths = new ArrayList<>();
+    ArrayList<Bitmap> images = new ArrayList<>();
     private ProgressDialog uploading;
     private TextView catName;
     private RecyclerView imagesRecyclerView;
     private ImagesAdapter imagesAdapter;
     private ImageView imageView;
-    private int catNum = 1;
-
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-
-    public static final int MEDIA_TYPE_IMAGE = 1;
-
+    private Bitmap bitmap;
     private Uri fileUri; // file url to store image/video
-
-    ArrayList<String> paths = new ArrayList<>();
-    ArrayList<Bitmap> images = new ArrayList<>();
-    private String[] cats = {"License Pictures","Premises Pictures","Signboard Pictures"};
-    private int i;
+    private String imagePathStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +55,7 @@ public class TakePicturesActivity extends BaseActivity {
         uploading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         uploading.setCancelable(false);
 
-        imagesAdapter = new ImagesAdapter(TakePicturesActivity.this,images);
+        imagesAdapter = new ImagesAdapter(TakePicturesActivity.this, images);
         imagesRecyclerView.setLayoutManager(new LinearLayoutManager(TakePicturesActivity.this, LinearLayoutManager.HORIZONTAL, false));
         imagesRecyclerView.setAdapter(imagesAdapter);
 
@@ -69,94 +63,43 @@ public class TakePicturesActivity extends BaseActivity {
 
     private void initViews() {
 
-        catName = (TextView) findViewById(R.id.catName);
-        catName.setText(cats[0]);
-        imagesRecyclerView = (RecyclerView) findViewById(R.id.picturesList);
-
-        imageView = (ImageView) findViewById(R.id.image);
+        catName = findViewById(R.id.catName);
+        imagesRecyclerView = findViewById(R.id.picturesList);
+        imageView = findViewById(R.id.image);
     }
 
     public void onSendPics(View view) {
 
-//        if (utils.isNetworkConnected()) {
-//
-//            Log.e("Path Size", String.valueOf(paths.size()));
-//
-////            if (!images.isEmpty()) {
-////                utils.showToast("Uploading images in background....");
-////                if (catNum < 3) {
-////                    catNum++;
-////                    catName.setText(cats[catNum - 1]);
-////                    images.clear();
-////                    imagesAdapter.notifyDataSetChanged();
-////                } else {
-////                    images.clear();
-////                    utils.startNewActivity(LicenceDetailsActivity.class, null, true);
-////                }
-////            } else {
-////                utils.showToast("Select Picture First....!");
-////            }
-//        } else {
-//            utils.showAlertDialoge();
-//        }
-        if (utils.isNetworkConnected()){
-
-
+        if (utils.isNetworkConnected()) {
             if (!images.isEmpty()) {
 
-                for (i = 0; i < paths.size(); i++) {
+                uploading.show();
+                httpService.uploadImage(new HttpResponseCallback() {
+                    @Override
+                    public void onCompleteHttpResponse(String response, String requestUrl) {
 
-                    Log.e("PATH SIZE", String.valueOf(paths.size()));
-                    final int remaining = paths.size()-(i+1);
-                    Log.e("REMAININ", String.valueOf(remaining));
-                    uploading.show();
-
-
-                    httpService.uploadImage(new HttpResponseCallback() {
-                        @Override
-                        public void onCompleteHttpResponse(String response, String requestUrl) {
-
-                            if (response == null) {
-                                utils.showToast("No Response....!");
-                                return;
-                            } else {
-                                Log.e("Response", response);
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    if (jsonObject.getBoolean("success")){
-                                        if (remaining == 0){
-                                            uploading.dismiss();
-                                            if (catNum < 3) {
-                                                utils.showToast("Uploaded");
-                                                catNum++;
-                                                catName.setText(cats[catNum - 1]);
-                                                images.clear();
-                                                paths.clear();
-                                                imagesAdapter.notifyDataSetChanged();
-                                            } else {
-                                                utils.showToast("All images uploaded successfully....");
-                                                images.clear();
-                                                paths.clear();
-                                                utils.startNewActivity(LicenceDetailsActivity.class, null, true);
-                                            }
-                                        } else {
-                                            utils.showToast(String.valueOf(remaining) + " Remaining...");
-                                        }
-                                    } else {
-
-                                        utils.showToast(jsonObject.optString("message"));
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                        if (response == null) {
+                            utils.showToast("No Response....!");
+                        } else {
+                            Log.e("Response", response);
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                if (jsonObject.getBoolean("success")) {
+                                    uploading.dismiss();
+                                    utils.showToast("Uploaded successfully....");
+                                } else {
+                                    utils.showToast(jsonObject.optString("message"));
                                 }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         }
-                    }, paths.get(i).toString());
-                }
+                    }
+                }, imagePathStr);
+
             } else {
                 utils.showToast("Select Picture First....!");
             }
-
         } else {
             utils.showToast("No internet connection...");
         }
@@ -165,7 +108,6 @@ public class TakePicturesActivity extends BaseActivity {
     public void onClickTakePickture(View view) {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         // start the image capture Intent
         startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
     }
@@ -177,51 +119,35 @@ public class TakePicturesActivity extends BaseActivity {
             if (resultCode == RESULT_OK) {
 
                 if (data.getData() != null) {
-
                     Uri selectedImage = data.getData();
 
-
-                    Bitmap bmp = null;
                     try {
-                        bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
-
-//                RoundedBitmapDrawable roundedBitmapDrawable= RoundedBitmapDrawableFactory.create(getResources(), bmp);
-//                roundedBitmapDrawable.setCircular(true);
-//
-//                proPic.setImageDrawable(roundedBitmapDrawable);
-//                proPicLoading.setVisibility(View.GONE);
                     Date d = new Date();
-                    CharSequence s  = DateFormat.format("MM-dd-yy hh-mm-ss", d.getTime());
-                    File f = utils.convertBitmapToFile(bmp, s.toString() + ".jpg");
+                    CharSequence s = DateFormat.format("MM-dd-yy hh-mm-ss", d.getTime());
+                    File f = utils.convertBitmapToFile(bitmap, s.toString() + ".jpg");
+                    imagePathStr = f.getPath();
                     paths.add(f.getPath());
-                    images.add(bmp);
+                    images.add(bitmap);
                     imagesAdapter.notifyDataSetChanged();
 
                     Log.e("Data", "Not Null");
-//                Drawable drawable = new BitmapDrawable(getResources(), thumbnail);
-//                imageView.setImageBitmap(thumbnail);
-//                Picasso.with(TakePicturesActivity.this).load(destination.getAbsolutePath()).into(imageView);
-
                 } else {
-                    Bitmap bmp = (Bitmap)data.getExtras().get("data");
+                    Bitmap bmp = (Bitmap) data.getExtras().get("data");
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 
-//                RoundedBitmapDrawable roundedBitmapDrawable= RoundedBitmapDrawableFactory.create(getResources(), bmp);
-//                roundedBitmapDrawable.setCircular(true);
-//
-//                proPic.setImageDrawable(roundedBitmapDrawable);
-//                proPicLoading.setVisibility(View.GONE);
                     Date d = new Date();
-                    CharSequence s  = DateFormat.format("MM-dd-yy hh-mm-ss", d.getTime());
+                    CharSequence s = DateFormat.format("MM-dd-yy hh-mm-ss", d.getTime());
                     File f = utils.convertBitmapToFile(bmp, s.toString() + ".jpg");
+                    imagePathStr = f.getPath();
                     paths.add(f.getPath());
                     images.add(bmp);
                     imagesAdapter.notifyDataSetChanged();
@@ -231,5 +157,9 @@ public class TakePicturesActivity extends BaseActivity {
 
             }
         }
+    }
+
+    public void finishSurvey(View view) {
+        startActivity(new Intent(getApplication(), LicenceDetailsActivity.class));
     }
 }
