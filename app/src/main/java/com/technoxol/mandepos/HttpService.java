@@ -167,7 +167,7 @@ public class HttpService extends HttpUtils {
         HashMap<String, String> httpParams = new HashMap<>();
 
         httpParams.put("tag", "upload");
-        httpParams.put("survey_id", "7223");
+        httpParams.put("survey_id", sharedPrefUtils.getSharedPrefValue(SURVEY_ID));
         httpMultipartRequest(BASE_URL + "api/index.php", httpParams, filePath, "filename", callback, true);
     }
 }
