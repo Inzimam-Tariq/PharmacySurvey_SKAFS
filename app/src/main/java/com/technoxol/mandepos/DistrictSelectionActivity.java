@@ -32,6 +32,7 @@ import static com.technoxol.mandepos.AppConstants.LICENSE_RESPONSE;
 import static com.technoxol.mandepos.AppConstants.PHARMACIST_ID;
 import static com.technoxol.mandepos.AppConstants.REG_STATUS;
 import static com.technoxol.mandepos.AppConstants.SURVEY_ID;
+import static com.technoxol.mandepos.AppConstants.setSurveyId;
 import static com.technoxol.mandepos.AppConstants.subCatInfoList;
 
 public class DistrictSelectionActivity extends BaseActivity {
@@ -83,6 +84,7 @@ public class DistrictSelectionActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_district_selection);
+        setSurveyId("");
 
         initUtils();
         initViews();

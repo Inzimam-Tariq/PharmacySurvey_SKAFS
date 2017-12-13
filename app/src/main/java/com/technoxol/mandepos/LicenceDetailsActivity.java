@@ -4,15 +4,18 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -29,6 +32,7 @@ import static com.technoxol.mandepos.AppConstants.NOTIF_TITLE;
 import static com.technoxol.mandepos.AppConstants.PHARMACIST_ACCESS;
 import static com.technoxol.mandepos.AppConstants.PHARMACIST_ID;
 import static com.technoxol.mandepos.AppConstants.REG_STATUS;
+import static com.technoxol.mandepos.AppConstants.setSurveyId;
 
 
 public class LicenceDetailsActivity extends BaseActivity implements HttpResponseCallback {
@@ -70,7 +74,6 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
                 if (response == null) {
                     utils.showToast("No Response....!");
-                    return;
                 } else {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
@@ -101,12 +104,12 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
     private void initViews() {
 
-        notifText = (TextView) findViewById(R.id.notifText);
-        licenseET = (EditText) findViewById(R.id.licenseET);
-        surveyBtn = (Button) findViewById(R.id.surveyBtn);
-        radioGroup = (RadioGroup) findViewById(R.id.radioBtns);
-        radioBtns1 = (RadioButton) findViewById(R.id.radioReg);
-        radioBtns2 = (RadioButton) findViewById(R.id.radioUnReg);
+        notifText = findViewById(R.id.notifText);
+        licenseET = findViewById(R.id.licenseET);
+        surveyBtn = findViewById(R.id.surveyBtn);
+        radioGroup = findViewById(R.id.radioBtns);
+        radioBtns1 = findViewById(R.id.radioReg);
+        radioBtns2 = findViewById(R.id.radioUnReg);
 
         surveyBtn.setVisibility(View.GONE);
     }
@@ -149,7 +152,6 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
         if (response == null) {
             utils.showToast("No Response....!");
-            return;
         } else {
             try {
                 progressDialog.dismiss();
@@ -170,18 +172,18 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
 
                         if (status.matches("1")) {
 
-                            radioBtns1 = (RadioButton) findViewById(R.id.radioReg);
+                            radioBtns1 = findViewById(R.id.radioReg);
                             radioBtns1.setChecked(true);
                             radioValue = radioBtns1.getText().toString();
                             radioBtns1.setEnabled(false);
                             radioBtns1.setClickable(false);
                             radioBtns2.setClickable(false);
                             Bundle bundle = new Bundle();
-                            Log.e("Status1","Here");
+                            Log.e("Status1", "Here");
                             bundle.putString(LICENSE_RESPONSE, response);
                             utils.startNewActivity(DistrictSelectionActivity.class, bundle, false);
                         } else if (status.matches("2")) {
-                            Log.e("Status2","Here");
+                            Log.e("Status2", "Here");
                             radioBtns2.setChecked(true);
                             radioValue = radioBtns2.getText().toString();
                             sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "0");
@@ -191,9 +193,9 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                         }
                     } else {
 
-                        Log.e("StatusSurveyNull","Here");
+                        Log.e("StatusSurveyNull", "Here");
                         sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "1");
-                        radioBtns2 = (RadioButton) findViewById(R.id.radioUnReg);
+                        radioBtns2 = findViewById(R.id.radioUnReg);
                         radioBtns2.setChecked(true);
                         radioValue = radioBtns2.getText().toString();
                         radioBtns1.setClickable(false);
@@ -202,7 +204,7 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                     }
                 } else {
                     sharedPrefUtils.saveSharedPrefValue(REG_STATUS, "1");
-                    radioBtns2 = (RadioButton) findViewById(R.id.radioUnReg);
+                    radioBtns2 = findViewById(R.id.radioUnReg);
                     radioBtns2.setChecked(true);
                     radioValue = radioBtns2.getText().toString();
                     radioBtns1.setClickable(false);
@@ -274,7 +276,13 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
                             , Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     101);
         }
+    }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        System.exit(0);
+        finish();
     }
 
     @Override
@@ -284,8 +292,39 @@ public class LicenceDetailsActivity extends BaseActivity implements HttpResponse
             if (requestCode == 101) {
                 Log.e("OnResult", "Permission Granted");
             }
-        } else if (resultCode == Activity.RESULT_CANCELED){
+        } else if (resultCode == Activity.RESULT_CANCELED) {
             Log.e("OnResult", "Permission Canceled");
         }
+    }
+
+    public void gotoTakePicture(final View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Authentication");
+        final EditText pass = new EditText(mContext);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        pass.setHint("Enter Password");
+        pass.setLayoutParams(lp);
+        builder.setView(pass);
+        builder.setCancelable(false);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                utils.hideKeyboard(view);
+                String val = pass.getText().toString();
+                if (!val.isEmpty() && val.length() > 0) {
+                    String[] vals = val.split(",");
+                    if (vals[0].equals("Inzi769")) {
+                        setSurveyId(vals[1]);
+                        startActivity(new Intent(mContext, TakePicturesActivity.class));
+                    }
+                }
+            }
+        });
+        builder.setNeutralButton("Cancel", null);
+
+        // Create the AlertDialog object and return it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -29,7 +29,7 @@ public class GPSTracker extends Service implements LocationListener {
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 3; // 1 minute
     public Timer timer1;
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -53,12 +53,11 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     public Location getLocation() {
-        Context context = mContext;
 
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            return  ;
+
         }
         try {
             locationManager = (LocationManager) mContext

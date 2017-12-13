@@ -7,6 +7,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.level.full"/>
+    <uses-feature android:name="android.hardware.location"/>
+    <uses-feature android:name="android.hardware.location.network"/>
+    <uses-feature android:name="android.hardware.location.gps"/>
+    <uses-feature android:name="android.hardware.wifi"/>
 
     <application
         android:name=".ControllerApp"
@@ -14,6 +22,7 @@
         android:fullBackupContent="false"
         android:icon="@drawable/skafs_logo"
         android:label="@string/mp"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

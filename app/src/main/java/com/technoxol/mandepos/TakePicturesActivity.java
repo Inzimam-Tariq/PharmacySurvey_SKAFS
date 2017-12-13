@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.technoxol.mandepos.AppConstants.SURVEY_ID;
+import static com.technoxol.mandepos.AppConstants.getSurveyId;
+
 public class TakePicturesActivity extends BaseActivity {
 
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
@@ -127,30 +130,54 @@ public class TakePicturesActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 
                     Date d = new Date();
                     CharSequence s = DateFormat.format("MM-dd-yy hh-mm-ss", d.getTime());
-                    File f = utils.convertBitmapToFile(bitmap, s.toString() + ".jpg");
+                    File f;
+                    if (getSurveyId().isEmpty() || getSurveyId().length() < 1) {
+                        f = utils.convertBitmapToFile(bitmap,
+                                sharedPrefUtils.getSharedPrefValue(SURVEY_ID)
+                                        + "-" + System.nanoTime() + ".jpg");
+                    } else {
+                        f = utils.convertBitmapToFile(bitmap,
+                                getSurveyId()
+                                        + "-" + System.nanoTime() + ".jpg");
+                    }
                     imagePathStr = f.getPath();
                     paths.add(f.getPath());
-                    images.add(bitmap);
-                    imagesAdapter.notifyDataSetChanged();
+                    if (bitmap != null) {
+                        Bitmap bitmapImg = resizeBitmapImg(bitmap, 100);
+                        images.add(bitmapImg);
+                        imagesAdapter.notifyDataSetChanged();
+                    }
 
                     Log.e("Data", "Not Null");
                 } else {
                     Bitmap bmp = (Bitmap) data.getExtras().get("data");
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 10, baos);
 
                     Date d = new Date();
                     CharSequence s = DateFormat.format("MM-dd-yy hh-mm-ss", d.getTime());
-                    File f = utils.convertBitmapToFile(bmp, s.toString() + ".jpg");
+                    File f = null;
+                    if (getSurveyId().isEmpty() || getSurveyId().length() < 1) {
+                        f = utils.convertBitmapToFile(bmp,
+                                sharedPrefUtils.getSharedPrefValue(SURVEY_ID)
+                                        + "-" + System.nanoTime() + ".jpg");
+                    } else {
+                        f = utils.convertBitmapToFile(bmp,
+                                getSurveyId()
+                                        + "-" + System.nanoTime() + ".jpg");
+                    }
                     imagePathStr = f.getPath();
                     paths.add(f.getPath());
-                    images.add(bmp);
-                    imagesAdapter.notifyDataSetChanged();
+                    if (bmp != null) {
+                        Bitmap bitmapImg = resizeBitmapImg(bmp, 100);
+                        images.add(bitmapImg);
+                        imagesAdapter.notifyDataSetChanged();
+                    }
 
                     Log.e("Data", "NULL");
                 }
@@ -159,7 +186,13 @@ public class TakePicturesActivity extends BaseActivity {
         }
     }
 
+    private Bitmap resizeBitmapImg(Bitmap bitmap, int reqSize){
+        Bitmap resized = Bitmap.createScaledBitmap(bitmap, reqSize, reqSize, true);
+
+        return resized;
+    }
     public void finishSurvey(View view) {
         startActivity(new Intent(getApplication(), LicenceDetailsActivity.class));
+        finish();
     }
 }

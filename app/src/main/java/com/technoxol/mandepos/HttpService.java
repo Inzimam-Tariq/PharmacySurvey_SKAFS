@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.HashMap;
 
 import static com.technoxol.mandepos.AppConstants.SURVEY_ID;
+import static com.technoxol.mandepos.AppConstants.getSurveyId;
 
 public class HttpService extends HttpUtils {
 
@@ -16,7 +17,7 @@ public class HttpService extends HttpUtils {
 
     public HttpService(Context mContext) {
         super(mContext);
-         sharedPrefUtils = new SharedPrefUtils(mContext);
+        sharedPrefUtils = new SharedPrefUtils(mContext);
 //        authToken = sharedPrefUtils.getSharedPrefValue(AppConstants.SP_APP_TOKEN);
     }
 
@@ -123,7 +124,7 @@ public class HttpService extends HttpUtils {
                              String father_name_proprietor,
                              String cnic_proprietor, String location_nearby, String name_hospital,
                              String working_hours, String email_address,
-                             String telephone_number, String address_proprietor, String  status,
+                             String telephone_number, String address_proprietor, String status,
                              String opt_name_proprietor,
                              String opt_father_name_proprietor,
                              String opt_cnic_proprietor,
@@ -162,12 +163,16 @@ public class HttpService extends HttpUtils {
         httpPost(BASE_URL + "api/index.php", httpParams, callback, false, "");
     }
 
-    public void uploadImage(HttpResponseCallback callback,String filePath) {
+    public void uploadImage(HttpResponseCallback callback, String filePath) {
 
         HashMap<String, String> httpParams = new HashMap<>();
 
         httpParams.put("tag", "upload");
-        httpParams.put("survey_id", sharedPrefUtils.getSharedPrefValue(SURVEY_ID));
+        if (getSurveyId().isEmpty() || getSurveyId().length() < 1) {
+            httpParams.put("survey_id", sharedPrefUtils.getSharedPrefValue(SURVEY_ID));
+        } else {
+            httpParams.put("survey_id", getSurveyId());
+        }
         httpMultipartRequest(BASE_URL + "api/index.php", httpParams, filePath, "filename", callback, true);
     }
 }

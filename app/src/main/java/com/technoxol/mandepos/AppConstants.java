@@ -42,7 +42,15 @@ public class AppConstants {
 
     public static final String NOTIF_TITLE = "notifTitle";
     public static final String NOTIF_MSG = "notifMsg";
+    private static String Survey_Id;
 
+    public static String getSurveyId() {
+        return Survey_Id;
+    }
+
+    public static void setSurveyId(String surveyId) {
+        Survey_Id = surveyId;
+    }
 }
 
 
